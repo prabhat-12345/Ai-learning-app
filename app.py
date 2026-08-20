@@ -3,7 +3,7 @@ import streamlit as st
 from google import genai
 from streamlit_mic_recorder import speech_to_text
 
-# 1. Direct Secret mapping for Streamlit Cloud
+# 1. API Key connection from Streamlit Secrets
 if "GEMINI_API_KEY" in st.secrets:
     client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 else:
@@ -21,14 +21,14 @@ text_input = speech_to_text(
     stop_prompt="🛑 BAS KAREIN",
     language='en',  # English words like Cat, Dog, A for Apple
     use_container_width=True,
-    key='balwadi_speech'
+    key='balwadi_speech_final'
 )
 
-# 3. AI Processing Logic using Stable 2.5 Flash Engine
+# 3. AI Processing Logic using Verified 3.6 Flash Engine
 if text_input:
     st.markdown(f"<p style='text-align: center; font-size: 19px;'>👶 **Aapne bola:** {text_input}</p>", unsafe_allow_html=True)
     
-    # Fully optimized context instructions for kids learning
+    # Optimized context instructions for kid learning
     prompt = f"""
     You are a playful, loving, and energetic nursery school teacher talking to a 3-year-old toddler. 
     The child said: '{text_input}'.
@@ -42,8 +42,9 @@ if text_input:
     
     try:
         with st.spinner("🎈 AI Didi soch rahi hain..."):
+            # Google's suggested active flagship endpoint
             response = client.models.generate_content(
-                model='gemini-2.5-flash',  # Stable backend endpoint
+                model='gemini-3.6-flash',  
                 contents=prompt,
             )
             ai_reply = response.text.strip()
